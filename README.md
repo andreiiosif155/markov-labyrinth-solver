@@ -3,29 +3,29 @@ Markov is coming (Labyrinth & Markov Chains)
 Abstract:
 Implemented a full pipeline in Matlab/Octave to model a labyrinth as a Markov chain 
 and compute escape probabilities:
-> Parsed labyrinth encoding into adjacency and link matrices (stored as sparse for efficiency)
-> Built transition probabilities using bitwise wall checks (bitand)
-> Applied the Jacobi iterative method to solve the linear system of probabilities
-> Designed a heuristic greedy search to find winning paths with maximum success probability
-> Implemented path decoding back to matrix coordinates
+- Parsed labyrinth encoding into adjacency and link matrices (stored as sparse for efficiency)
+- Built transition probabilities using bitwise wall checks (bitand)
+- Applied the Jacobi iterative method to solve the linear system of probabilities
+- Designed a heuristic greedy search to find winning paths with maximum success probability
+- Implemented path decoding back to matrix coordinates
 
 
 A more detailed implementation can be found below:
 parse_labyrinth
-> Se citesc dimensiunile matricei labyrinth si cu ajutorul acestora se foloseste
+- Se citesc dimensiunile matricei labyrinth si cu ajutorul acestora se foloseste
  functia fscanf pentru a o citi.
 
 get_adjacency_matrix
-> Se initializeaza matricea Adj ca matrice rara cu ajutorul functiei sparse[1],
+- Se initializeaza matricea Adj ca matrice rara cu ajutorul functiei sparse[1],
   deoarece aceasta ignora valorile nule, optimizand consumul de memorie.
-> Se calculeaza indicele k aferent pozitiei (i, j) din  matricea Labyrinth in
+- Se calculeaza indicele k aferent pozitiei (i, j) din  matricea Labyrinth in
   matricea Adj cu ajutorul formulei k = (i - 1) * n + j deoarece pe fiecare
   linie i se afla n elemente iar j ne da pozitia de pe acea linie.
-> Verificarile existentelor peretilor se fac cu ajutorul operatiei pe biti
+- Verificarile existentelor peretilor se fac cu ajutorul operatiei pe biti
   AND pentru fiecare perete corespunzator in parte. Aceasta operatie a fost
   implementata cu ajutorul functiei bitand[2] ce realizeaza operatia binara
   AND intre 2 numere.
-> Astfel, verificarile au fost urmatoarele:
+- Astfel, verificarile au fost urmatoarele:
   -pentru peretele de la Vest se face AND cu 1 (b0 = 2^0).
    Daca rezultatul este 0, peretele nu exista deci se leaga
    celula cu vecinul din stanga (k - 1) sau cu starea Lose
@@ -42,23 +42,23 @@ get_adjacency_matrix
    Daca rezultatul este 0, peretele nu exista deci se leaga
    celula cu vecinul de deasupra (k - n) sau cu starea Win
    daca ne aflam pe prima linie.
-> Starile de Win si Lose sunt absordante deci celulele aferente (Win,Win) si
+- Starile de Win si Lose sunt absordante deci celulele aferente (Win,Win) si
   (Lose, Lose) vor fi 1
 
 get_link_matrix
-> Se calculeaza matricea Adj cu ajutorul functiei anterioare.
-> Se initializeaza matricea Link ca matrice rara cu ajutorul functiei sparse[1].
-> Pentru fiecare stare i se calculeaza numarul de vecini si daca acesta e diferit
+- Se calculeaza matricea Adj cu ajutorul functiei anterioare.
+- Se initializeaza matricea Link ca matrice rara cu ajutorul functiei sparse[1].
+- Pentru fiecare stare i se calculeaza numarul de vecini si daca acesta e diferit
   de 0 se distribuie uniform probabilitatile (se impart elementele liniei la 
   numarul de vecini).
 
 get_Jacobi_parameters
-> Se extrage matricea G din matricea Link
-> Se extrage vectorul coloana c din matricea Link
+- Se extrage matricea G din matricea Link
+- Se extrage vectorul coloana c din matricea Link
 
 heuristic_greedy
-> Se initializeaza drumul cu pozitia de start si un vector de vizitare
-> Algoritmul ruleaza cat timp exista drum de explorat:
+- Se initializeaza drumul cu pozitia de start si un vector de vizitare
+- Algoritmul ruleaza cat timp exista drum de explorat:
   - La fiecare pas verifica daca a ajuns la starea Win
   - Gaseste toti vecinii posibili ai pozitiei curente
   - Filtreaza vecinii nevizitati
@@ -70,11 +70,11 @@ heuristic_greedy
      * Actualizeaza drumul si marcheaza pozitia ca vizitata
 
 perform_iterative
-> Se implementeaza metoda iterativa Jacobi
+- Se implementeaza metoda iterativa Jacobi
 
 decode_path
-> Se elimina starea Win daca este prezenta
-> Se converteste fiecare indice liniar in pereche (linie, coloana) astfel:
+- Se elimina starea Win daca este prezenta
+- Se converteste fiecare indice liniar in pereche (linie, coloana) astfel:
   - coloana = restul impartirii la numarul de coloane, calcul implementat cu
     ajutorul functiei mod[3] ce calculeaza restul impartirii intre 2 numere 
   - linie = catul impartirii la numarul de coloane
